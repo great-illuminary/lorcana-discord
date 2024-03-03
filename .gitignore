@@ -1,0 +1,13 @@
+.gradle
+**/build/
+**/gradle/dolbyio/
+.idea/
+local.properties
+.DS_Store
+.env.yml
+
+# Eclipse Gradle plugin generated files
+# Eclipse Core
+.project
+# JDT-specific (Eclipse Java Development Tools)
+.classpath
