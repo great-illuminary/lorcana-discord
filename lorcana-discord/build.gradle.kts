@@ -7,7 +7,7 @@ plugins {
 }
 
 group = "eu.codlab.discord"
-version = "1.0"
+version = property("version")!!
 
 application {
     mainClass.set("eu.codlab.discord.MainKt")
@@ -18,4 +18,8 @@ dependencies {
     implementation("me.jakejmattson:DiscordKt:0.24.0")
     implementation(dolbyio.multiplatform.file.access)
     implementation(dolbyio.multiplatform.string.fuzzywuzzy)
+
+    testImplementation(kotlin("test"))
+    testImplementation(dolbyio.kotlinx.coroutines.test)
+    testImplementation(dolbyio.multiplatform.platform)
 }
