@@ -3,9 +3,8 @@ package eu.codlab.discord
 import dev.kord.x.emoji.Emojis
 import eu.codlab.discord.utils.BotPermissions
 import eu.codlab.discord.utils.Env
-import eu.codlab.discord.utils.LorcanaData.lorcanaLoaded
+import eu.codlab.discord.utils.LorcanaData
 import eu.codlab.files.VirtualFile
-import eu.codlab.lorcana.Lorcana
 import kotlinx.coroutines.flow.toList
 import kotlinx.coroutines.runBlocking
 import kotlinx.serialization.decodeFromString
@@ -26,14 +25,10 @@ fun main() {
             throw FileNotFoundException(error)
         }
 
-        lorcanaLoaded = Lorcana().loadFromResources()
+        LorcanaData.initialize()
 
         val context = currentDir.readString()
         val env: Env = yaml.decodeFromString(context)
-
-        println(env)
-
-        println("commands:")
 
         bot(env.botToken) {
             configure {
