@@ -24,4 +24,5 @@ dependencyResolutionManagement {
 }
 
 include(":lorcana-discord")
+include(":lorcana-discord-database")
 includeBuild "gradle/dolbyio/${ext.DOLBYIO_GRADLE_VERSION_USED}/kt-plugins"

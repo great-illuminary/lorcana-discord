@@ -22,4 +22,6 @@ dependencies {
     testImplementation(kotlin("test"))
     testImplementation(dolbyio.kotlinx.coroutines.test)
     testImplementation(dolbyio.multiplatform.platform)
+
+    implementation(project(":lorcana-discord-database"))
 }

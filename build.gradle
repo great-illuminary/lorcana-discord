@@ -11,6 +11,7 @@ buildscript {
 
 plugins {
     alias(dolbyio.plugins.dokka)
+    alias(dolbyio.plugins.kotlin.multiplatform) apply false
     alias(dolbyio.plugins.kotlin.jvm) apply false
 }
 

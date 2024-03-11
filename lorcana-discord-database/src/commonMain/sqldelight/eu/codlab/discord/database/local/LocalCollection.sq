@@ -1,0 +1,52 @@
+CREATE TABLE IF NOT EXISTS `LocalCollection` (
+	`card_set` TEXT NOT NULL,
+	`errata` INTEGER NOT NULL,
+	`discord_user_id` INTEGER NOT NULL,
+	`card_id` INTEGER NOT NULL,
+	`number` INTEGER NOT NULL
+);
+
+CREATE INDEX IF NOT EXISTS LocalCollection_idx_unique_sets ON LocalCollection(card_set, card_id, errata);
+CREATE INDEX IF NOT EXISTS LocalCollection_idx_discord_user_id ON LocalCollection(discord_user_id);
+CREATE UNIQUE INDEX IF NOT EXISTS LocalCOllection_unique ON LocalCollection(
+    discord_user_id,
+    card_set,
+    errata,
+    card_id
+);
+
+selectForDiscordUser:
+SELECT * FROM LocalCollection
+WHERE discord_user_id=?
+ORDER BY card_set, card_id, errata;
+
+selectForDiscordUserAndCard:
+SELECT * FROM LocalCollection
+WHERE discord_user_id=?
+AND card_set=?
+AND errata=?
+AND card_id=?
+LIMIT 1;
+
+countForDiscordUserAndCard:
+SELECT COUNT(*) FROM LocalCollection
+WHERE discord_user_id=?
+AND card_set=?
+AND errata=?
+AND card_id=?
+LIMIT 1;
+
+select:
+SELECT * FROM LocalCollection
+ORDER BY card_set, card_id, errata;
+
+insert:
+INSERT INTO LocalCollection (`card_set`, `errata`, `card_id`, `discord_user_id`, `number`)
+VALUES (?,?,?,?, ?);
+
+update:
+UPDATE LocalCollection SET number=?
+WHERE discord_user_id=?
+AND card_set=?
+AND errata=?
+AND card_id=?;
