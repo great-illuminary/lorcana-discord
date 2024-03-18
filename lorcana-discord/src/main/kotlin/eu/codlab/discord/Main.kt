@@ -1,6 +1,7 @@
 package eu.codlab.discord
 
 import dev.kord.x.emoji.Emojis
+import eu.codlab.discord.pricings.PricingController
 import eu.codlab.discord.utils.BotPermissions
 import eu.codlab.discord.utils.Env
 import eu.codlab.discord.utils.LorcanaData
@@ -24,6 +25,8 @@ fun main() {
         if (!currentDir.exists()) {
             throw FileNotFoundException(error)
         }
+
+        PricingController.loadPricing()
 
         LorcanaData.initialize()
 

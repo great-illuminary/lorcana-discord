@@ -1,0 +1,2 @@
+- Update the internal version of the lib used
+- Add TCG Player pricing information

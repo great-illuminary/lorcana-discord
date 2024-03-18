@@ -1,6 +1,7 @@
 package eu.codlab.discord.embed
 
 import dev.kord.rest.builder.message.EmbedBuilder
+import eu.codlab.discord.pricings.PricingController
 import eu.codlab.discord.utils.LorcanaData
 import eu.codlab.lorcana.cards.ClassificationHolder
 import eu.codlab.lorcana.cards.Language
@@ -8,7 +9,8 @@ import eu.codlab.lorcana.raw.SetDescription
 import eu.codlab.lorcana.raw.Variant
 import eu.codlab.lorcana.raw.VirtualCard
 
-fun EmbedBuilder.cardContent(
+@Suppress("LongMethod", "ComplexMethod")
+suspend fun EmbedBuilder.cardContent(
     lang: Language,
     set: SetDescription,
     setItem: Variant<ClassificationHolder>,
@@ -53,6 +55,9 @@ fun EmbedBuilder.cardContent(
     image = imageUrl
     thumbnail { url = imageUrl }
 
+    val price = PricingController.price(set, setItem.id)
+    println("having price $price")
+
     field("Classifications", inline = false) { classifications }
 
     if (stats.isNotEmpty()) {
@@ -61,6 +66,15 @@ fun EmbedBuilder.cardContent(
 
     if (null != setItem.erratas) {
         field("Erratas", inline = false) { "This card contains errors" }
+    }
+
+    price?.let {
+        field("TCGPlayer", inline = false) {
+            "low /$${it.lowPrice}\n" +
+                "mid / $${it.midPrice}\n " +
+                "high / $${it.highPrice}\n" +
+                "(price based upon tcgcsv.com regardless of the lang & in USD"
+        }
     }
 
     sets.forEach { setDescription ->

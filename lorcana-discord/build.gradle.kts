@@ -14,8 +14,9 @@ application {
 }
 
 dependencies {
-    implementation("eu.codlab:lorcana-data:0.5.0")
-    implementation("me.jakejmattson:DiscordKt:0.24.0")
+    implementation(libs.lorcana.data)
+    implementation(libs.tcg.data.pricing)
+    implementation(libs.discordkt)
     implementation(dolbyio.multiplatform.file.access)
     implementation(dolbyio.multiplatform.string.fuzzywuzzy)
 
