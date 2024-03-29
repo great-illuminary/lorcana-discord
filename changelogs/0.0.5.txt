@@ -1,0 +1,1 @@
+- change /show so that the set can be set from the name

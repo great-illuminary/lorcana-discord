@@ -3,23 +3,23 @@ package eu.codlab.discord
 import dev.kord.x.emoji.Emojis
 import eu.codlab.discord.embed.cardContent
 import eu.codlab.discord.transform.LanguageArg
+import eu.codlab.discord.transform.SetArg
 import eu.codlab.discord.utils.BotPermissions
 import eu.codlab.discord.utils.LorcanaData
-import eu.codlab.discord.utils.SetHelper
 import me.jakejmattson.discordkt.arguments.IntegerArg
 import me.jakejmattson.discordkt.commands.commands
 
 fun cardFromSet() = commands("Card", BotPermissions.EVERYONE) {
     slash("show", "Show information about a specific card") {
         execute(
-            IntegerArg("set"),
+            SetArg("set"),
             IntegerArg("id"),
             LanguageArg(
                 "lang",
                 "The various language available"
             )
         ) {
-            val set = SetHelper.set(args.first)
+            val set = args.first
             val id = args.second
             val lang = args.third
 
