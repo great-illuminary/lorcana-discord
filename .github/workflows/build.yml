@@ -67,7 +67,7 @@ jobs:
         with:
           webhook: ${{ secrets.DISCORD_WEBHOOK }}
           nodetail: true
-          username: LorcanaDiscord
+          username: LorcanaBot
           avatar_url: https://lorcana.codlab.eu/discord_avatar.png
           title: "The Discord bot ${{ steps.read_version.outputs.version }} is available !"
           description: |
