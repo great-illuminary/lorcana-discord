@@ -1,6 +1,6 @@
 [versions]
 sqldelight = "2.0.0"
-lorcana-data = "0.7.0"
+lorcana-data = "0.8.0"
 discordkt = "0.24.0"
 tcg-data-pricing = "0.0.2"
 
