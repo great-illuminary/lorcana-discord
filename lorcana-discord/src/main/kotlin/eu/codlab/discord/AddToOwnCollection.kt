@@ -8,7 +8,7 @@ import korlibs.datastructure.iterators.parallelMap
 import me.jakejmattson.discordkt.commands.commands
 
 fun addToOwnCollection() = commands("Collection", BotPermissions.EVERYONE) {
-    slash("addToOwnCollection", "Show your own collection info") {
+    globalSlash("addToOwnCollection", "Show your own collection info") {
         execute(
             SetArg("set"),
             CardNumberArg("cards")

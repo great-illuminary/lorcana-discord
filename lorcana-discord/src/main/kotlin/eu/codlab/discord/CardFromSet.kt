@@ -10,7 +10,7 @@ import me.jakejmattson.discordkt.arguments.IntegerArg
 import me.jakejmattson.discordkt.commands.commands
 
 fun cardFromSet() = commands("Card", BotPermissions.EVERYONE) {
-    slash("show", "Show information about a specific card") {
+    globalSlash("show", "Show information about a specific card") {
         execute(
             SetArg("set"),
             IntegerArg("id"),

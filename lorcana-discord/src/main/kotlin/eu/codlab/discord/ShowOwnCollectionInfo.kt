@@ -5,7 +5,7 @@ import eu.codlab.discord.utils.LorcanaData
 import me.jakejmattson.discordkt.commands.commands
 
 fun showOwnCollectionInfo() = commands("Collection", BotPermissions.EVERYONE) {
-    slash("showOwnCollectionInfo", "Show your own collection info") {
+    globalSlash("showOwnCollectionInfo", "Show your own collection info") {
         execute {
             val list = LorcanaData.database.localCollection.selectForUser(author.id.value.toLong())
 
