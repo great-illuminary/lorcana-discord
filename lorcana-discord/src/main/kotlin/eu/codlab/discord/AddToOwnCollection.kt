@@ -1,7 +1,7 @@
 package eu.codlab.discord
 
 import eu.codlab.discord.transform.CardNumberArg
-import eu.codlab.discord.transform.SetArg
+import eu.codlab.discord.transform.setArg
 import eu.codlab.discord.utils.BotPermissions
 import eu.codlab.discord.utils.LorcanaData
 import korlibs.datastructure.iterators.parallelMap
@@ -10,7 +10,7 @@ import me.jakejmattson.discordkt.commands.commands
 fun addToOwnCollection() = commands("Collection", BotPermissions.EVERYONE) {
     globalSlash("addToOwnCollection", "Show your own collection info") {
         execute(
-            SetArg("set"),
+            setArg("set"),
             CardNumberArg("cards")
         ) {
             val set = args.first
