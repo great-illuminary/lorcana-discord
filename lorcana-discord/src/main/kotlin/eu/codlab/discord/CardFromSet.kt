@@ -8,7 +8,6 @@ import eu.codlab.discord.transform.toLanguage
 import eu.codlab.discord.transform.toSetDescription
 import eu.codlab.discord.utils.BotPermissions
 import eu.codlab.discord.utils.LorcanaData
-import me.jakejmattson.discordkt.arguments.AnyArg
 import me.jakejmattson.discordkt.arguments.IntegerArg
 import me.jakejmattson.discordkt.commands.commands
 
@@ -17,22 +16,14 @@ fun cardFromSet() = commands("Card", BotPermissions.EVERYONE) {
         execute(
             SetArg("set", "Specify which set to use"),
             IntegerArg("id"),
-            LanguageArg(
-                "lang",
-                "The various language available"
-            )
+            LanguageArg("lang", "The various language available")
         ) {
             val set = args.first.toSetDescription()
             val id = args.second
             val lang = args.third.toLanguage()
 
-            if (null == set) {
-                respond("invalid set description")
-                return@execute
-            }
-
-            if (null == lang) {
-                respond("invalid language")
+            if (null == set || null == lang) {
+                respond("invalid arguments")
                 return@execute
             }
 
@@ -47,11 +38,9 @@ fun cardFromSet() = commands("Card", BotPermissions.EVERYONE) {
 
             val individualCards = card.variants.filter { it.set == set && it.id == id }
 
-            println(individualCards)
             if (individualCards.size > 1) {
                 respondMenu {
                     individualCards.forEachIndexed { index, individualCard ->
-                        println("showing $individualCard")
                         page {
                             title = "#$index"
                             cardContent(
@@ -73,16 +62,15 @@ fun cardFromSet() = commands("Card", BotPermissions.EVERYONE) {
                         }
                     }
                 }
-                return@execute
-            }
-
-            respondPublic {
-                cardContent(
-                    lang,
-                    set,
-                    individualCards.first(),
-                    card
-                )
+            } else {
+                respondPublic {
+                    cardContent(
+                        lang,
+                        set,
+                        individualCards.first(),
+                        card
+                    )
+                }
             }
         }
     }

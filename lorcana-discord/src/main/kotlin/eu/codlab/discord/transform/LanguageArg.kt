@@ -7,6 +7,7 @@ private val enumerations = Language.entries.associateBy { it.name.lowercase() }
 
 fun String.toLanguage(): Language? = enumerations[this.lowercase()]
 
+@Suppress("FunctionNaming")
 fun LanguageArg(name: String, description: String) = AnyArg(name, description).let {
     it.autocomplete { enumerations.keys.toList() }
 }

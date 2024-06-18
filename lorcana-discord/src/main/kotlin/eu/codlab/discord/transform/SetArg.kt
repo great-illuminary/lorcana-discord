@@ -7,6 +7,7 @@ private val enumerations = SetDescription.entries.associateBy { it.name.lowercas
 
 fun String.toSetDescription(): SetDescription? = enumerations[this.lowercase()]
 
+@Suppress("FunctionNaming")
 fun SetArg(name: String, description: String) = AnyArg(name, description).let {
     it.autocomplete { enumerations.keys.toList() }
 }
