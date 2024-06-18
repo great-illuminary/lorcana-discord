@@ -2,26 +2,39 @@ package eu.codlab.discord
 
 import dev.kord.x.emoji.Emojis
 import eu.codlab.discord.embed.cardContent
-import eu.codlab.discord.transform.langArg
-import eu.codlab.discord.transform.setArg
+import eu.codlab.discord.transform.LanguageArg
+import eu.codlab.discord.transform.SetArg
+import eu.codlab.discord.transform.toLanguage
+import eu.codlab.discord.transform.toSetDescription
 import eu.codlab.discord.utils.BotPermissions
 import eu.codlab.discord.utils.LorcanaData
+import me.jakejmattson.discordkt.arguments.AnyArg
 import me.jakejmattson.discordkt.arguments.IntegerArg
 import me.jakejmattson.discordkt.commands.commands
 
 fun cardFromSet() = commands("Card", BotPermissions.EVERYONE) {
     globalSlash("show", "Show information about a specific card") {
         execute(
-            setArg("set"),
+            SetArg("set", "Specify which set to use"),
             IntegerArg("id"),
-            langArg(
+            LanguageArg(
                 "lang",
                 "The various language available"
             )
         ) {
-            val set = args.first
+            val set = args.first.toSetDescription()
             val id = args.second
-            val lang = args.third
+            val lang = args.third.toLanguage()
+
+            if (null == set) {
+                respond("invalid set description")
+                return@execute
+            }
+
+            if (null == lang) {
+                respond("invalid language")
+                return@execute
+            }
 
             val card = LorcanaData.lorcanaLoaded.cards.find { card ->
                 null != card.variants.find { it.set == set && it.id == id }

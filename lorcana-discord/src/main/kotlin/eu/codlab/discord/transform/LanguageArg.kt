@@ -1,42 +1,12 @@
 package eu.codlab.discord.transform
 
 import eu.codlab.lorcana.cards.Language
-import me.jakejmattson.discordkt.arguments.Error
-import me.jakejmattson.discordkt.arguments.Result
-import me.jakejmattson.discordkt.arguments.StringArgument
-import me.jakejmattson.discordkt.arguments.Success
-import me.jakejmattson.discordkt.commands.DiscordContext
+import me.jakejmattson.discordkt.arguments.AnyArg
 
-private class LanguageArg(
-    override val name: String,
-    override val description: String
-) : StringArgument<Language> {
-    private val enumerations = Language.entries.associateBy { it.name.lowercase() }
+private val enumerations = Language.entries.associateBy { it.name.lowercase() }
 
-    /**
-     * The available choices. Can be any type, but associated by toString value.
-     */
-    val choices: List<Language> = Language.entries.toList()
+fun String.toLanguage(): Language? = enumerations[this.lowercase()]
 
-    val keys: List<String>
-        get() = enumerations.keys.toList()
-
-    init {
-        autocomplete { enumerations.keys.toList() }
-    }
-
-    override suspend fun transform(input: String, context: DiscordContext): Result<Language> {
-        val selection = enumerations[input.lowercase()]
-            ?: return Error("Invalid selection")
-
-        return Success(selection)
-    }
-
-    override suspend fun generateExamples(context: DiscordContext): List<String> =
-        choices.map { it.toString() }
+fun LanguageArg(name: String, description: String) = AnyArg(name, description).let {
+    it.autocomplete { enumerations.keys.toList() }
 }
-
-fun langArg(name: String, description: String = "Select a language") =
-    LanguageArg(name, description).let { arg ->
-        arg.autocomplete { arg.keys }
-    }

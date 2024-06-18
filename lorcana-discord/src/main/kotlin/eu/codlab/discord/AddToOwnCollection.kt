@@ -1,7 +1,8 @@
 package eu.codlab.discord
 
 import eu.codlab.discord.transform.CardNumberArg
-import eu.codlab.discord.transform.setArg
+import eu.codlab.discord.transform.SetArg
+import eu.codlab.discord.transform.toSetDescription
 import eu.codlab.discord.utils.BotPermissions
 import eu.codlab.discord.utils.LorcanaData
 import korlibs.datastructure.iterators.parallelMap
@@ -10,15 +11,20 @@ import me.jakejmattson.discordkt.commands.commands
 fun addToOwnCollection() = commands("Collection", BotPermissions.EVERYONE) {
     globalSlash("addToOwnCollection", "Show your own collection info") {
         execute(
-            setArg("set"),
+            SetArg("set", "Specify which set to use"),
             CardNumberArg("cards")
         ) {
-            val set = args.first
+            val set = args.first.toSetDescription()
             val cards = args.second
             val localCollection = LorcanaData.database.localCollection
 
             val discordUser = author.id.value.toLong()
             val list = localCollection.selectForUser(discordUser)
+
+            if (null == set) {
+                respond("invalid set description")
+                return@execute
+            }
 
             cards.forEach {
                 localCollection.insertOrUpdate(
