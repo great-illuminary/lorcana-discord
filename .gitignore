@@ -1,6 +1,6 @@
 .gradle
 **/build/
-**/gradle/dolbyio/
+**/gradle/extended/
 .idea/
 local.properties
 .DS_Store

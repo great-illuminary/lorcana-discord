@@ -3,17 +3,16 @@ package eu.codlab.discord.embed
 import dev.kord.rest.builder.message.EmbedBuilder
 import eu.codlab.discord.pricings.PricingController
 import eu.codlab.discord.utils.LorcanaData
-import eu.codlab.lorcana.cards.ClassificationHolder
 import eu.codlab.lorcana.cards.Language
 import eu.codlab.lorcana.raw.SetDescription
-import eu.codlab.lorcana.raw.Variant
+import eu.codlab.lorcana.raw.VariantClassification
 import eu.codlab.lorcana.raw.VirtualCard
 
 @Suppress("LongMethod", "ComplexMethod")
 suspend fun EmbedBuilder.cardContent(
     lang: Language,
     set: SetDescription,
-    setItem: Variant<ClassificationHolder>,
+    setItem: VariantClassification,
     card: VirtualCard
 ) {
     val placeholders = LorcanaData.lorcanaLoaded.configuration.placeholders
@@ -24,11 +23,18 @@ suspend fun EmbedBuilder.cardContent(
         setItem.id
     )
 
-    val languages = card.languages[lang.name.lowercase()]
+    val languages = when (lang) {
+        Language.Fr -> card.languages.fr
+        Language.En -> card.languages.en
+        Language.De -> card.languages.de
+        Language.It -> card.languages.it
+    }
+
     val name = listOf(
         languages?.name ?: "<not translated>",
         languages?.title ?: ""
     ).filter { it.isNotEmpty() }.joinToString(" - ")
+
     val rawClassifications = setItem.erratas?.get(lang)?.classifications ?: card.classifications
 
     val classifications = rawClassifications.map {
@@ -71,9 +77,9 @@ suspend fun EmbedBuilder.cardContent(
     price?.let {
         field("TCGPlayer", inline = false) {
             "low /$${it.lowPrice}\n" +
-                "mid / $${it.midPrice}\n " +
-                "high / $${it.highPrice}\n" +
-                "(price based upon tcgcsv.com regardless of the lang & in USD"
+                    "mid / $${it.midPrice}\n " +
+                    "high / $${it.highPrice}\n" +
+                    "(price based upon tcgcsv.com regardless of the lang & in USD"
         }
     }
 

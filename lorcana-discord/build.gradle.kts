@@ -1,8 +1,8 @@
 @Suppress("DSL_SCOPE_VIOLATION")
 plugins {
     application
-    alias(dolbyio.plugins.kotlin.jvm)
-    alias(dolbyio.plugins.kotlin.serialization)
+    alias(additionals.plugins.kotlin.jvm)
+    alias(additionals.plugins.kotlin.serialization)
     id("jvmCompat")
 }
 
@@ -17,12 +17,13 @@ dependencies {
     implementation(libs.lorcana.data)
     implementation(libs.tcg.data.pricing)
     implementation(libs.discordkt)
-    implementation(dolbyio.multiplatform.file.access)
-    implementation(dolbyio.multiplatform.string.fuzzywuzzy)
+    implementation(additionals.multiplatform.file.access)
+    implementation(additionals.multiplatform.string.fuzzywuzzy)
 
     testImplementation(kotlin("test"))
-    testImplementation(dolbyio.kotlinx.coroutines.test)
-    testImplementation(dolbyio.multiplatform.platform)
+    testImplementation(additionals.kotlinx.coroutines.test)
+    testImplementation(additionals.multiplatform.platform)
 
     implementation(project(":lorcana-discord-database"))
+    implementation(project(":melee-api"))
 }

@@ -1,0 +1,32 @@
+CREATE TABLE IF NOT EXISTS `TournamentUser` (
+    `id` INTEGER PRIMARY KEY AUTOINCREMENT,
+	`tracked_tournament_id` INTEGER NOT NULL,
+	`melee_username` TEXT NOT NULL,
+	`discord_user_id` INTEGER NOT NULL
+);
+
+CREATE UNIQUE INDEX IF NOT EXISTS TournamentUser_idx_unique ON TournamentUser(
+    discord_user_id,
+    tracked_tournament_id
+);
+
+selectForDiscordUser:
+SELECT TournamentUser.*,
+       T.discord_guild_id AS discord_guild_id,
+       T.discord_channel_id AS discord_channel_id,
+       T.tournament_id AS tournament_id,
+       T.closed AS closed
+FROM TournamentUser
+LEFT JOIN Tournament AS T ON T.id = TournamentUser.tracked_tournament_id
+WHERE discord_user_id=? AND discord_guild_id=? AND discord_channel_id=?
+ORDER BY tracked_tournament_id;
+
+selectForTournament:
+SELECT TournamentUser.*, T.closed AS closed
+FROM TournamentUser
+LEFT JOIN Tournament AS T ON T.id = TournamentUser.tracked_tournament_id
+WHERE tracked_tournament_id = ?;
+
+insert:
+INSERT INTO TournamentUser (`tracked_tournament_id`, `melee_username`, `discord_user_id`)
+VALUES (?,?,?);

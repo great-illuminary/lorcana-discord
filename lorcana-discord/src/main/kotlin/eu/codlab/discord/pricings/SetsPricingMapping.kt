@@ -8,7 +8,7 @@ object SetsPricingMapping {
         SetDescription.TFC to listOf(Categories.Lorcana.TheFirstChapter),
         SetDescription.RotF to listOf(Categories.Lorcana.RiseOfTheFloodBorn),
         SetDescription.ItI to listOf(Categories.Lorcana.IntoTheInklands),
-        SetDescription.Promos to listOf(
+        SetDescription.P1 to listOf(
             Categories.Lorcana.D23,
             Categories.Lorcana.D100,
             Categories.Lorcana.DisneyLorcanaPromoCards

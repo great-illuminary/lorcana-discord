@@ -1,0 +1,27 @@
+CREATE TABLE IF NOT EXISTS `Tournament` (
+    `id` INTEGER PRIMARY KEY AUTOINCREMENT,
+	`tournament_id` TEXT NOT NULL,
+	`discord_guild_id` INTEGER NOT NULL,
+    `discord_channel_id` INTEGER NOT NULL,
+    `closed` INTEGER NOT NULL
+);
+
+CREATE UNIQUE INDEX IF NOT EXISTS Tournament_idx_unique ON Tournament(
+    tournament_id,
+    discord_guild_id,
+    discord_channel_id
+);
+
+select:
+SELECT id, tournament_id, discord_guild_id, discord_channel_id, closed
+FROM Tournament;
+
+insert:
+INSERT INTO Tournament (`tournament_id`, `discord_guild_id`, `discord_channel_id`, `closed`)
+VALUES (?,?,?, 0);
+
+untrack:
+UPDATE Tournament SET closed=1 WHERE discord_guild_id=? AND discord_channel_id=?;
+
+unclose:
+UPDATE Tournament SET closed=0 WHERE id=?;

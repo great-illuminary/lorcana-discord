@@ -6,9 +6,9 @@ pluginManagement {
     }
 }
 
-ext.DOLBYIO_GRADLE_VERSION_USED = "v1.7.2"
+ext.GRADLE_EXTENDED_VERSION_USED = "afa05ba2b764b3c042598ed8168145d9ab2acae2"
 
-apply from: "https://raw.githubusercontent.com/voxeet/voxeet-sdk-android-gradle/${ext.DOLBYIO_GRADLE_VERSION_USED}/dolbyio.gradle"
+apply from: "https://raw.githubusercontent.com/the-inkwell/gradle-tools/${ext.GRADLE_EXTENDED_VERSION_USED}/extended.gradle"
 
 dependencyResolutionManagement {
     repositories {
@@ -17,12 +17,13 @@ dependencyResolutionManagement {
         mavenLocal()
     }
     versionCatalogs {
-        dolbyio {
-            from(files(gradle.dolbyio.files.catalog))
+        additionals {
+            from(files(gradle.extended.files.catalog))
         }
     }
 }
 
+include(":melee-api")
 include(":lorcana-discord")
 include(":lorcana-discord-database")
-includeBuild "gradle/dolbyio/${ext.DOLBYIO_GRADLE_VERSION_USED}/kt-plugins"
+includeBuild "gradle/extended/${ext.GRADLE_EXTENDED_VERSION_USED}/kt-plugins"

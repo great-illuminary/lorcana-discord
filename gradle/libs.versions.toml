@@ -1,8 +1,10 @@
 [versions]
 sqldelight = "2.0.0"
-lorcana-data = "0.8.0"
+lorcana-data = "0.13.0"
 discordkt = "0.24.0"
 tcg-data-pricing = "0.0.2"
+ksoup = "0.1.8"
+ktor = "2.3.1"
 
 [libraries]
 sqldelight-runtime = { module = "app.cash.sqldelight:runtime", version.ref = "sqldelight" }
@@ -10,6 +12,9 @@ sqldelight-driver-sqlite = { module = "app.cash.sqldelight:sqlite-driver", versi
 lorcana-data = { module = "eu.codlab:lorcana-data", version.ref = "lorcana-data" }
 tcg-data-pricing = { module = "eu.codlab:tcg-data-pricing", version.ref = "tcg-data-pricing" }
 discordkt = { module = "me.jakejmattson:DiscordKt", version.ref = "discordkt" }
+ksoup = { module = "com.fleeksoft.ksoup:ksoup", version.ref = "ksoup" }
+ksoup-lite = { module = "com.fleeksoft.ksoup:ksoup-lite", version.ref = "ksoup" }
+ksoup-network = { module = "com.fleeksoft.ksoup:ksoup-network", version.ref = "ksoup" }
 
 [plugins]
 sqldelight = { id = "app.cash.sqldelight", version.ref = "sqldelight" }

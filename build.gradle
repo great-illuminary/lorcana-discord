@@ -1,18 +1,18 @@
 buildscript {
-    apply from: gradle.dolbyio.files.modules
+    apply from: gradle.extended.files.modules
 
     dependencies {
-        classpath dolbyio.nexus.gradlePlugin
-        classpath dolbyio.sonarqube.gradlePlugin
-        classpath dolbyio.license.gradlePlugin
-        classpath dolbyio.dokka.gradlePlugin
+        classpath additionals.nexus.gradlePlugin
+        classpath additionals.sonarqube.gradlePlugin
+        classpath additionals.license.gradlePlugin
+        classpath additionals.dokka.gradlePlugin
     }
 }
 
 plugins {
-    alias(dolbyio.plugins.dokka)
-    alias(dolbyio.plugins.kotlin.multiplatform) apply false
-    alias(dolbyio.plugins.kotlin.jvm) apply false
+    alias(additionals.plugins.dokka)
+    alias(additionals.plugins.kotlin.multiplatform) apply false
+    alias(additionals.plugins.kotlin.jvm) apply false
 }
 
 group = "eu.codlab.discord"
@@ -27,7 +27,7 @@ subprojects {
     task allDeps(type: DependencyReportTask) {}
 
     if (isSourcesModule(it)) {
-        apply from: gradle.dolbyio.files.moduleSetup
+        apply from: gradle.extended.files.moduleSetup
     }
 }
 

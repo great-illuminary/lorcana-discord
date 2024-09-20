@@ -1,0 +1,28 @@
+CREATE TABLE IF NOT EXISTS `TournamentUserRound` (
+    `id` INTEGER PRIMARY KEY AUTOINCREMENT,
+	`tournament_id` INTEGER NOT NULL,
+	`user_id` INTEGER NOT NULL,
+	`round_index` TEXT NOT NULL,
+	`against_color_1` TEXT,
+	`against_color_2` TEXT
+);
+
+CREATE UNIQUE INDEX IF NOT EXISTS TournamentUserRound_idx_unique ON TournamentUserRound(
+    tournament_id,
+    user_id,
+    round_index
+);
+
+selectRounds:
+SELECT id, tournament_id, user_id, round_index, against_color_1, against_color_2
+FROM TournamentUserRound
+WHERE tournament_id=? AND user_id=?
+ORDER BY round_index;
+
+insert:
+INSERT INTO TournamentUserRound (`tournament_id`, `user_id`, `round_index`, `against_color_1`, `against_color_2`)
+VALUES (?,?,?,?,?);
+
+update:
+UPDATE TournamentUserRound SET against_color_1=?, against_color_2=?
+WHERE tournament_id=? AND user_id=? AND round_index=?;

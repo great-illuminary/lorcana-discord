@@ -5,7 +5,8 @@ import eu.codlab.discord.database.local.LocalDatabase
 
 data class Database internal constructor(
     private val database: LocalDatabase,
-    val localCollection: LocalCollection
+    val localCollection: LocalCollection,
+    val tournamentTracker: TournamentController
 ) {
     companion object {
         fun create(): Database {
@@ -15,7 +16,12 @@ data class Database internal constructor(
 
             return Database(
                 database,
-                LocalCollection(database.localCollectionQueries)
+                LocalCollection(database.localCollectionQueries),
+                TournamentController(
+                    database.tournamentQueries,
+                    database.tournamentUserQueries,
+                    database.tournamentUserRoundQueries
+                )
             )
         }
     }
