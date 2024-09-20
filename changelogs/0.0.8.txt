@@ -1,0 +1,2 @@
+- added tournament management
+- bumped card's database (v0.13.0)
