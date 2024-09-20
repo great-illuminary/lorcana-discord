@@ -9,7 +9,7 @@ import me.jakejmattson.discordkt.commands.SlashCommandEvent
 import me.jakejmattson.discordkt.commands.commands
 
 fun tournamentTrack() = commands("Tournament", BotPermissions.EVERYONE) {
-    globalSlash("track", "Track yourself in a tournament") {
+    globalSlash("track", "Track a specific melee tournament using its id") {
         execute(
             AnyArg("id", "The tournament id")
         ) {

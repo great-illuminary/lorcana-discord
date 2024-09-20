@@ -10,7 +10,7 @@ import me.jakejmattson.discordkt.arguments.IntegerArg
 import me.jakejmattson.discordkt.commands.commands
 
 fun tournamentValidateRound() = commands("Tournament", BotPermissions.EVERYONE) {
-    globalSlash("validate", "Track yourself in a tournament") {
+    globalSlash("validate", "Validate your opponent's deck") {
         execute(
             IntegerArg("round_index", "The round you register the info for, (eg. 1)"),
             InkArg("color_1", "The main color of your opponent's deck"),

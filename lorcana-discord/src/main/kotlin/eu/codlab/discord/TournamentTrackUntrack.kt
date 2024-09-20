@@ -5,7 +5,7 @@ import eu.codlab.discord.utils.LorcanaData
 import me.jakejmattson.discordkt.commands.commands
 
 fun tournamentTrackUntrack() = commands("Tournament", BotPermissions.EVERYONE) {
-    globalSlash("untrack", "Track yourself in a tournament") {
+    globalSlash("untrack", "Untrack a melee tournament") {
         execute {
             if (null == currentTournament) {
                 respondPublic {
