@@ -89,13 +89,14 @@ internal constructor(
         }!!
     }
 
+    @Suppress("TooGenericExceptionCaught")
     private suspend fun <T> post(block: () -> T): T =
         suspendCoroutine { continuation ->
             queue.post {
                 try {
                     val result = block()
                     continuation.resume(result)
-                } catch (@Suppress("TooGenericExceptionCaught") exception: Throwable) {
+                } catch (exception: Throwable) {
                     continuation.resumeWithException(exception)
                 }
             }

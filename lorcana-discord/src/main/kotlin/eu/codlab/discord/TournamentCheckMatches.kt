@@ -1,13 +1,13 @@
 package eu.codlab.discord
 
 import eu.codlab.discord.database.models.TournamentUser
-import eu.codlab.discord.embed.tournamentMatchesContent
 import eu.codlab.discord.utils.BotPermissions
 import eu.codlab.discord.utils.LorcanaData
 import eu.codlab.melee.Match
 import eu.codlab.melee.Tournament
 import me.jakejmattson.discordkt.commands.commands
 
+@Suppress("TooGenericExceptionCaught")
 fun tournamentCheckMatches() = commands("Tournament", BotPermissions.EVERYONE) {
     globalSlash("check", "Check the round information") {
         execute {

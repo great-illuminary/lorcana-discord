@@ -48,7 +48,7 @@ fun tournamentValidateRound() = commands("Tournament", BotPermissions.EVERYONE) 
             val roundId = tournament.matches().mapIndexed { index, match -> index to match }
                 .find { roundIndex - 1 == it.first }?.second?.id!!
 
-            val inserted = LorcanaData.database.tournamentTracker.insert(
+            LorcanaData.database.tournamentTracker.insert(
                 trackedTournament = trackedTournament,
                 tournamentUser = foundUser,
                 roundId = roundId,

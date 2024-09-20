@@ -19,7 +19,9 @@ import java.io.FileNotFoundException
 fun main() {
     val error = ".env.yml doesn't exist. You need to create it and add a bot_token value"
     val currentDir = VirtualFile(VirtualFile.Root, ".env.yml")
-    val yaml = Yaml { /** nothing */ }
+    val yaml = Yaml {
+        /** nothing */
+    }
 
     runBlocking {
         if (!currentDir.exists()) {

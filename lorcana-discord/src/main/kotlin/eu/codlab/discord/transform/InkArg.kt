@@ -1,7 +1,6 @@
 package eu.codlab.discord.transform
 
 import eu.codlab.lorcana.cards.InkColor
-import eu.codlab.lorcana.raw.SetDescription
 import me.jakejmattson.discordkt.arguments.AnyArg
 
 private val enumerations = InkColor.entries.associateBy { it.name.lowercase() }

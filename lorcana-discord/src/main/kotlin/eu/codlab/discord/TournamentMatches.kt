@@ -2,10 +2,10 @@ package eu.codlab.discord
 
 import eu.codlab.discord.embed.tournamentMatchesContent
 import eu.codlab.discord.utils.BotPermissions
-import eu.codlab.discord.utils.LorcanaData
 import eu.codlab.melee.Tournament
 import me.jakejmattson.discordkt.commands.commands
 
+@Suppress("TooGenericExceptionCaught")
 fun tournamentMatches() = commands("Tournament", BotPermissions.EVERYONE) {
     globalSlash("matches", "Show match information from a specific tournament") {
         execute {
@@ -25,10 +25,7 @@ fun tournamentMatches() = commands("Tournament", BotPermissions.EVERYONE) {
                 val matches = tournament.matches()
 
                 respondPublic {
-                    tournamentMatchesContent(
-                        tournament,
-                        matches
-                    )
+                    tournamentMatchesContent(matches)
                 }
             } catch (err: Throwable) {
                 err.printStackTrace()

@@ -1,6 +1,5 @@
 package eu.codlab.melee
 
-
 class Tournament(
     private val id: String
 ) {

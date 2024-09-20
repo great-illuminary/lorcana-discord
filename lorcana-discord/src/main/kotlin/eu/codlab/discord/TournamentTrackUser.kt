@@ -35,7 +35,7 @@ fun tournamentTrackUser() = commands("Tournament", BotPermissions.EVERYONE) {
                     }
                 }
             } else {
-                val inserted = LorcanaData.database.tournamentTracker.insert(
+                LorcanaData.database.tournamentTracker.insert(
                     trackedTournament = trackedTournament,
                     discordUser = author.id.value.toLong(),
                     meleeUserName = melee

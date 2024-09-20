@@ -7,8 +7,6 @@ import me.jakejmattson.discordkt.commands.commands
 fun tournamentTrackUntrack() = commands("Tournament", BotPermissions.EVERYONE) {
     globalSlash("untrack", "Track yourself in a tournament") {
         execute {
-            val tournament = currentTournament
-
             if (null == currentTournament) {
                 respondPublic {
                     field("Tracking", inline = false) {

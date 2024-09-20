@@ -5,7 +5,6 @@ import eu.codlab.lorcana.Lorcana
 import eu.codlab.lorcana.LorcanaLoaded
 
 object LorcanaData {
-
     lateinit var database: Database
         private set
 
