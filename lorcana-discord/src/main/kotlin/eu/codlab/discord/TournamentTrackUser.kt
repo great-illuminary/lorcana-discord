@@ -1,8 +1,10 @@
 package eu.codlab.discord
 
+import eu.codlab.discord.database.models.TrackedTournament
 import eu.codlab.discord.utils.BotPermissions
 import eu.codlab.discord.utils.LorcanaData
 import me.jakejmattson.discordkt.arguments.AnyArg
+import me.jakejmattson.discordkt.commands.SlashCommandEvent
 import me.jakejmattson.discordkt.commands.commands
 
 fun tournamentTrackUser() = commands("Tournament", BotPermissions.EVERYONE) {
@@ -12,40 +14,58 @@ fun tournamentTrackUser() = commands("Tournament", BotPermissions.EVERYONE) {
         ) {
             val melee = args.first
 
-            val trackedTournament = currentTournament
-
-            if (null == trackedTournament) {
-                respondPublic {
-                    field("Error") { "No tournament currently tracked" }
+            trackUser(
+                melee,
+                author.id.value.toLong(),
+                onAlreadyTracked = { _, found ->
+                    "You are already tracked <@$found>"
+                },
+                onSuccess = { trackedTournament, _ ->
+                    "You've been added to the tournament #${trackedTournament.tournament}"
                 }
+            )
+        }
+    }
+}
 
-                return@execute
+suspend fun SlashCommandEvent<*>.trackUser(
+    melee: String,
+    user: Long,
+    onAlreadyTracked: (TrackedTournament, user: Long) -> String,
+    onSuccess: (TrackedTournament, user: Long) -> String
+) {
+    val trackedTournament = currentTournament
+
+    if (null == trackedTournament) {
+        respondPublic {
+            field("Error") { "No tournament currently tracked" }
+        }
+
+        return
+    }
+
+    val found = LorcanaData.database.tournamentTracker.selectForUser(
+        discordGuild = guildOrAuthorFallback.value.toLong(),
+        discordChannel = channel.id.value.toLong(),
+        discordUser = user
+    ).find { it.tournament.id == trackedTournament.id }
+
+    if (null != found) {
+        respondPublic {
+            field("Tracking", inline = false) {
+                onAlreadyTracked(trackedTournament, user)
             }
+        }
+    } else {
+        LorcanaData.database.tournamentTracker.insert(
+            trackedTournament = trackedTournament,
+            discordUser = user,
+            meleeUserName = melee
+        )
 
-            val found = LorcanaData.database.tournamentTracker.selectForUser(
-                discordGuild = guildOrAuthorFallback.value.toLong(),
-                discordChannel = channel.id.value.toLong(),
-                discordUser = author.id.value.toLong()
-            ).find { it.tournament.id == trackedTournament.id }
-
-            if (null != found) {
-                respondPublic {
-                    field("Tracking", inline = false) {
-                        "You are already tracked <@${found.discordUser}>"
-                    }
-                }
-            } else {
-                LorcanaData.database.tournamentTracker.insert(
-                    trackedTournament = trackedTournament,
-                    discordUser = author.id.value.toLong(),
-                    meleeUserName = melee
-                )
-
-                respondPublic {
-                    field("Tracking", inline = false) {
-                        "You've been added to the tournament #${trackedTournament.tournament}"
-                    }
-                }
+        respondPublic {
+            field("Tracking", inline = false) {
+                onSuccess(trackedTournament, user)
             }
         }
     }
