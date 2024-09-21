@@ -1,0 +1,1 @@
+- added the "status" command to get the listing of the various colors played against
