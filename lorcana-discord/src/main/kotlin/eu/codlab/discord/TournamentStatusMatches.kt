@@ -76,6 +76,7 @@ val String.inkColorEmoji: String
             "amber" -> "yellow"
             "amethyst" -> "purple"
             "emerald" -> "green"
+            "ruby" -> "red"
             "sapphire" -> "blue"
             "steel" -> "white"
             else -> "yellow"
