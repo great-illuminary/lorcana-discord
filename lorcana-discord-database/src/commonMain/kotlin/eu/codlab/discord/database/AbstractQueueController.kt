@@ -5,7 +5,7 @@ import kotlin.coroutines.resume
 import kotlin.coroutines.resumeWithException
 import kotlin.coroutines.suspendCoroutine
 
-abstract class AbstractQueueController {
+open class AbstractQueueController {
     private val queue = Queue()
 
     @Suppress("TooGenericExceptionCaught")

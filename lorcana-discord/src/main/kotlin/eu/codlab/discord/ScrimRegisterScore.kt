@@ -1,8 +1,6 @@
 package eu.codlab.discord
 
 import eu.codlab.discord.database.models.ScrimPlayerResult
-import eu.codlab.discord.transform.InkArg
-import eu.codlab.discord.transform.toInkColor
 import eu.codlab.discord.utils.BotPermissions
 import eu.codlab.discord.utils.LorcanaData
 import korlibs.time.DateTime
@@ -10,7 +8,7 @@ import me.jakejmattson.discordkt.arguments.AnyArg
 import me.jakejmattson.discordkt.arguments.IntegerArg
 import me.jakejmattson.discordkt.commands.commands
 
-@Suppress("TooGenericExceptionCaught")
+@Suppress("TooGenericExceptionCaught", "MagicNumber")
 fun scrimRegisterScore() = commands("Scrim", BotPermissions.EVERYONE) {
     globalSlash("scrim", "Register a scrim result") {
         execute(
@@ -47,7 +45,6 @@ fun scrimRegisterScore() = commands("Scrim", BotPermissions.EVERYONE) {
                     player1 = pair.first,
                     player2 = pair.second
                 )
-
 
                 respondPublic {
                     field("Scrim") {

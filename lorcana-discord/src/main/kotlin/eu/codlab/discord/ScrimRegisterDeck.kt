@@ -5,10 +5,9 @@ import eu.codlab.discord.transform.toInkColor
 import eu.codlab.discord.utils.BotPermissions
 import eu.codlab.discord.utils.LorcanaData
 import korlibs.time.DateTime
-import me.jakejmattson.discordkt.arguments.AnyArg
 import me.jakejmattson.discordkt.commands.commands
 
-@Suppress("TooGenericExceptionCaught")
+@Suppress("TooGenericExceptionCaught", "MagicNumber")
 fun scrimRegisterDeck() = commands("Scrim", BotPermissions.EVERYONE) {
     globalSlash("deck", "Register your deck colors") {
         execute(

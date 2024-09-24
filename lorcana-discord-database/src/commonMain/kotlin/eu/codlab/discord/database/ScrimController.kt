@@ -12,6 +12,7 @@ internal constructor(
     private val scrimDeckQueries: ScrimDeckQueries,
     private val scrimReportQueries: ScrimReportQueries
 ) : AbstractQueueController() {
+    @Suppress("MagicNumber")
     private fun now() = DateTime.now().unixMillisLong / 1000
 
     suspend fun selectDecks() = post { scrimDeckQueries.select().executeAsList() }
@@ -52,7 +53,8 @@ internal constructor(
             ?: throw IllegalStateException("No deck set for <@${player2.discordId}>")
 
         scrimReportQueries.insert(
-            discordGuildId, timestamp,
+            discordGuildId,
+            timestamp,
             deck1 = deck1.id,
             deck2 = deck2.id,
             deck1_won_rounds = player1.roundWon.toLong(),
