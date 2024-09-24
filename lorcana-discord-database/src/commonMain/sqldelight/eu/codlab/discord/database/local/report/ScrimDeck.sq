@@ -1,0 +1,35 @@
+CREATE TABLE IF NOT EXISTS `ScrimDeck` (
+    `id` INTEGER PRIMARY KEY AUTOINCREMENT,
+	`discord_user_id` INTEGER NOT NULL,
+    `color1` INTEGER NOT NULL,
+    `color2` INTEGER NOT NULL,
+    `last_selection_at` INTEGER NOT NULL
+);
+
+CREATE INDEX IF NOT EXISTS ScrimDeck_idx_last_selection_at ON ScrimDeck(last_selection_at);
+CREATE INDEX IF NOT EXISTS ScrimReport_idx_discord_user_id ON ScrimDeck(discord_user_id);
+CREATE UNIQUE INDEX IF NOT EXISTS ScrimDeck_idx_user_colors ON ScrimDeck(
+    discord_user_id,
+    color1,
+    color2
+);
+
+select:
+SELECT id, discord_user_id, color1, color2, last_selection_at
+FROM ScrimDeck;
+
+selectForDiscordUserId:
+SELECT id, discord_user_id, color1, color2, last_selection_at
+FROM ScrimDeck WHERE discord_user_id=?
+;
+
+selectForDiscordUserIdAndColor:
+SELECT id, discord_user_id, color1, color2, last_selection_at
+FROM ScrimDeck WHERE discord_user_id=? AND color1=? AND color2=?;
+
+insert:
+INSERT INTO ScrimDeck (`discord_user_id`, `color1`, `color2`, `last_selection_at`)
+VALUES (?,?,?,?);
+
+set_selection_at:
+UPDATE ScrimDeck SET last_selection_at=? WHERE discord_user_id=? AND color1=? AND color2=?;

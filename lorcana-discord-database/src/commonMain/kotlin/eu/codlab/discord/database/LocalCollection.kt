@@ -1,17 +1,11 @@
 package eu.codlab.discord.database
 
 import eu.codlab.discord.database.local.LocalCollectionQueries
-import eu.codlab.discord.database.utils.Queue
-import kotlin.coroutines.resume
-import kotlin.coroutines.resumeWithException
-import kotlin.coroutines.suspendCoroutine
 
 class LocalCollection
 internal constructor(
     private val queries: LocalCollectionQueries
-) {
-    private val queue = Queue()
-
+) : AbstractQueueController() {
     suspend fun selectForUser(discordUser: Long) = post {
         queries.selectForDiscordUser(discordUser)
             .executeAsList()
@@ -88,17 +82,4 @@ internal constructor(
             )
         }!!
     }
-
-    @Suppress("TooGenericExceptionCaught")
-    private suspend fun <T> post(block: () -> T): T =
-        suspendCoroutine { continuation ->
-            queue.post {
-                try {
-                    val result = block()
-                    continuation.resume(result)
-                } catch (exception: Throwable) {
-                    continuation.resumeWithException(exception)
-                }
-            }
-        }
 }

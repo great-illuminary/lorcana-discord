@@ -41,6 +41,7 @@ kotlin {
             dependencies {
                 implementation(libs.sqldelight.driver.sqlite)
                 implementation(additionals.kotlinx.coroutines.jvm)
+                implementation(additionals.multiplatform.file.access)
             }
         }
     }

@@ -1,0 +1,42 @@
+CREATE TABLE IF NOT EXISTS `ScrimReport` (
+    `id` INTEGER PRIMARY KEY AUTOINCREMENT,
+	`discord_guild_id` INTEGER NOT NULL,
+    `timestamp` INTEGER NOT NULL,
+    `deck1` INTEGER NOT NULL,
+    `deck2` INTEGER NOT NULL,
+    `deck1_won_rounds` INTEGER NOT NULL,
+    `deck2_won_rounds` INTEGER NOT NULL
+);
+
+CREATE INDEX IF NOT EXISTS ScrimReport_idx_timestamp ON ScrimReport(timestamp);
+CREATE INDEX IF NOT EXISTS ScrimReport_idx_deck1 ON ScrimReport(deck1);
+CREATE INDEX IF NOT EXISTS ScrimReport_idx_deck2 ON ScrimReport(deck2);
+
+select:
+SELECT SR.id,
+       SR.discord_guild_id,
+       SR.timestamp,
+       SR.deck1,
+       SR.deck2,
+       SR.deck1_won_rounds,
+       SR.deck2_won_rounds,
+       SD1.discord_user_id AS discord_user_id1,
+       SD1.color1 AS deck1_color1,
+       SD1.color2 AS deck1_color2,
+       SD2.discord_user_id AS discord_user_id2,
+       SD2.color1 AS deck2_color1,
+       SD2.color2 AS deck2_color2
+FROM ScrimReport AS SR
+JOIN ScrimDeck AS SD1 ON SR.deck1=SD1.id
+JOIN ScrimDeck AS SD2 ON SR.deck2=SD2.id
+WHERE SR.discord_guild_id=?;
+
+insert:
+INSERT INTO ScrimReport (
+    `discord_guild_id`,
+    `timestamp`,
+    `deck1`,
+    `deck2`,
+    `deck1_won_rounds`,
+    `deck2_won_rounds`
+) VALUES (?,?,?,?,?,?);

@@ -52,9 +52,8 @@ fun tournamentStatusMatches() = commands("Tournament", BotPermissions.EVERYONE) 
                                 "No data for this round"
                             } else {
                                 savedColor.joinToString("\n") {
-                                    "<@${it.user.discordUser}> -> against " +
-                                            it.againstColor1?.inkColorEmoji +
-                                            " " + it.againstColor2?.inkColorEmoji
+                                    it.colors.joinToString(" ") { c -> c.inkColorEmoji} +
+                                    " (<@${it.user.discordUser}>'s opponent)"
                                 }
                             }
                         }

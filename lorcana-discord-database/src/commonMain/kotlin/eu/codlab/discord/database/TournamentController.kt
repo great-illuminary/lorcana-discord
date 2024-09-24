@@ -1,24 +1,18 @@
 package eu.codlab.discord.database
 
-import eu.codlab.discord.database.local.TournamentQueries
-import eu.codlab.discord.database.local.TournamentUserQueries
-import eu.codlab.discord.database.local.TournamentUserRoundQueries
+import eu.codlab.discord.database.local.tournament.TournamentQueries
+import eu.codlab.discord.database.local.tournament.TournamentUserQueries
+import eu.codlab.discord.database.local.tournament.TournamentUserRoundQueries
 import eu.codlab.discord.database.models.TournamentUser
 import eu.codlab.discord.database.models.TournamentUserRound
 import eu.codlab.discord.database.models.TrackedTournament
-import eu.codlab.discord.database.utils.Queue
-import kotlin.coroutines.resume
-import kotlin.coroutines.resumeWithException
-import kotlin.coroutines.suspendCoroutine
 
 class TournamentController
 internal constructor(
     private val tournamentQueries: TournamentQueries,
     private val tournamentUserQueries: TournamentUserQueries,
     private val tournamentUserRoundQueries: TournamentUserRoundQueries
-) {
-    private val queue = Queue()
-
+) : AbstractQueueController() {
     fun selectTrackedTournaments() = tournamentQueries.select().executeAsList().map {
         TrackedTournament(
             id = it.id,
@@ -217,17 +211,4 @@ internal constructor(
             tournamentQueries.unclose(trackedTournament.id)
         }
     }
-
-    @Suppress("TooGenericExceptionCaught")
-    private suspend fun <T> post(block: () -> T): T =
-        suspendCoroutine { continuation ->
-            queue.post {
-                try {
-                    val result = block()
-                    continuation.resume(result)
-                } catch (exception: Throwable) {
-                    continuation.resumeWithException(exception)
-                }
-            }
-        }
 }
