@@ -47,13 +47,7 @@ fun scrimRegisterStat() = commands("Scrim", BotPermissions.EVERYONE) {
                 println(chart.toJson())
 
                 respondPublic {
-                    field("Scrim") {
-                        "The result has been set"
-                    }
-
                     image = chart.toUrl()
-
-                    // thumbnail { url = chart.toUrl() }
                 }
             } catch (err: Throwable) {
                 err.printStackTrace()
