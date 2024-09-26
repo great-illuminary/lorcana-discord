@@ -2,7 +2,7 @@ package eu.codlab.discord
 
 import eu.codlab.discord.chart.Chart
 import eu.codlab.discord.chart.Data
-import eu.codlab.discord.chart.DataSet
+import eu.codlab.discord.chart.DataSetArray
 import eu.codlab.discord.database.models.ScrimDeck
 import eu.codlab.discord.utils.BotPermissions
 import eu.codlab.discord.utils.LorcanaData
@@ -34,7 +34,7 @@ fun scrimRegisterStat() = commands("Scrim", BotPermissions.EVERYONE) {
                     data = Data(
                         labels = data.map { it.inkPair1.first + " " + it.inkPair2.first },
                         datasets = listOf(
-                            DataSet(
+                            DataSetArray(
                                 backgroundColor = data.map {
                                     "getGradientFillHelper('vertical',['${it.inkPair1.second}', '${it.inkPair2.second}'])"
                                 },
@@ -44,10 +44,8 @@ fun scrimRegisterStat() = commands("Scrim", BotPermissions.EVERYONE) {
                     )
                 )
 
-                println(chart.toJson())
-
                 respondPublic {
-                    image = chart.toUrl()
+                    image = chart.toUrl(serializerD = Data.serializer(DataSetArray.serializer()))
                 }
             } catch (err: Throwable) {
                 err.printStackTrace()
@@ -59,7 +57,7 @@ fun scrimRegisterStat() = commands("Scrim", BotPermissions.EVERYONE) {
     }
 }
 
-private val inkPairs = listOf(
+val inkPairs = listOf(
     "A" to "#f5dd42",
     "Am" to "#6b0148",
     "E" to "#128f09",

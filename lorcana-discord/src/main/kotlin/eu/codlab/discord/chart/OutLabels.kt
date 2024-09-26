@@ -1,42 +1,78 @@
 package eu.codlab.discord.chart
 
 import io.ktor.http.encodeURLPath
+import kotlinx.serialization.KSerializer
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.json.Json
 
-private val jsonEncoder = Json {
+val jsonEncoder = Json {
     encodeDefaults = true
 }
 
 @Serializable
-data class Chart(
+data class Chart<D>(
     val type: String = "outlabeledPie",
-    val data: Data,
+    val data: D,
     val options: Options = Options()
 ) {
-    fun toJson(json: Json = jsonEncoder) = json.encodeToString(serializer(), this)
+    fun toJson(
+        json: Json = jsonEncoder,
+        serializerD: KSerializer<D>
+    ) = json.encodeToString(serializer(serializerD), this)
         .replace(")\"", ")")
         .replace("\"getGradientFillHelper(", "getGradientFillHelper(")
 
-    fun toUrl(json: Json = jsonEncoder) =
-        "https://quickchart.io/chart?c=" + toJson(json).encodeURLPath()
+    fun toUrl(
+        json: Json = jsonEncoder,
+        serializerD: KSerializer<D>
+    ) = "https://quickchart.io/chart?c=" + toJson(json, serializerD).encodeURLPath()
 }
 
 @Serializable
-data class Data(
+data class Data<D>(
     val labels: List<String>,
-    val datasets: List<DataSet>
+    val datasets: List<D>
+)
+
+@Serializable
+data class DataSetArray(
+    val backgroundColor: List<String>,
+    val data: List<Int>,
 )
 
 @Serializable
 data class DataSet(
-    val backgroundColor: List<String>,
-    val data: List<Int>
+    val backgroundColor: String,
+    /**
+     * Used in graphs like radars
+     */
+    val borderColor: String? = null,
+    /**
+     * Used in multi label graphs. The label would then be specific for the curve
+     */
+    val label: String? = null,
+    val data: List<Int>,
+    /**
+     * For graphs which accepts to be filled, -1 seems to be filled, 1 is transparent (weird tho)
+     */
+    val fill: Int? = null
 )
 
 @Serializable
 data class Options(
+    val spanGaps: Boolean? = null,
+    val elements: Elements? = null,
     val plugins: Plugins = Plugins()
+)
+
+@Serializable
+data class Elements(
+    val line: Line = Line()
+)
+
+@Serializable
+data class Line(
+    val tension: Double = 0.000001
 )
 
 @Serializable
