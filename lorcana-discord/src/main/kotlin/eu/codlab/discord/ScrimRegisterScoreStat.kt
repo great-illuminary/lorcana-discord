@@ -1,16 +1,18 @@
 package eu.codlab.discord
 
+import eu.codlab.discord.chart.Axis
 import eu.codlab.discord.chart.Chart
 import eu.codlab.discord.chart.Data
 import eu.codlab.discord.chart.DataSet
 import eu.codlab.discord.chart.Elements
 import eu.codlab.discord.chart.Options
+import eu.codlab.discord.chart.Scales
 import eu.codlab.discord.database.models.ScrimDeck
 import eu.codlab.discord.utils.BotPermissions
 import eu.codlab.discord.utils.LorcanaData
 import me.jakejmattson.discordkt.commands.commands
 
-@Suppress("TooGenericExceptionCaught", "MagicNumber")
+@Suppress("TooGenericExceptionCaught", "MagicNumber", "LongMethod")
 fun scrimRegisterScoreStat() = commands("Scrim", BotPermissions.EVERYONE) {
     globalSlash("scrimScoreRatio", "The latest scrim's score ratio") {
         execute {
@@ -57,7 +59,7 @@ fun scrimRegisterScoreStat() = commands("Scrim", BotPermissions.EVERYONE) {
                 }
 
                 val chart = Chart(
-                    type = "radar",
+                    type = "line",
                     data = Data(
                         labels = data.map {
                             "${inkPairs[it.deck.color1].first} ${inkPairs[it.deck.color2].first}"
@@ -70,7 +72,11 @@ fun scrimRegisterScoreStat() = commands("Scrim", BotPermissions.EVERYONE) {
                     ),
                     options = Options(
                         spanGaps = false,
-                        elements = Elements()
+                        elements = Elements(),
+                        scales = Scales(
+                            xAxes = listOf(Axis()),
+                            yAxes = listOf(Axis(stacked = true))
+                        )
                     )
                 )
 

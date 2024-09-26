@@ -62,7 +62,19 @@ data class DataSet(
 data class Options(
     val spanGaps: Boolean? = null,
     val elements: Elements? = null,
-    val plugins: Plugins = Plugins()
+    val plugins: Plugins = Plugins(),
+    val scales: Scales? = null
+)
+
+@Serializable
+data class Scales(
+    val xAxes: List<Axis>,
+    val yAxes: List<Axis>,
+)
+
+@Serializable
+data class Axis(
+    val stacked: Boolean = false
 )
 
 @Serializable
