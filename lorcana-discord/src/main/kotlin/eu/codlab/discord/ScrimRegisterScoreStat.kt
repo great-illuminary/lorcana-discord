@@ -47,6 +47,7 @@ fun scrimRegisterScoreStat() = commands("Scrim", BotPermissions.EVERYONE) {
                 fun dataSet(
                     borderColor: String,
                     backgroundColor: String,
+                    fill: Int? = null,
                     extract: (ScrimDeckResult) -> Int
                 ): DataSet {
                     return DataSet(
@@ -54,7 +55,7 @@ fun scrimRegisterScoreStat() = commands("Scrim", BotPermissions.EVERYONE) {
                         backgroundColor = backgroundColor,
                         label = "",
                         data = data.map { extract(it) },
-                        fill = 1
+                        fill = fill
                     )
                 }
 
@@ -65,9 +66,9 @@ fun scrimRegisterScoreStat() = commands("Scrim", BotPermissions.EVERYONE) {
                             "${inkPairs[it.deck.color1].first} ${inkPairs[it.deck.color2].first}"
                         },
                         datasets = listOf(
-                            dataSet("#038f0f", "#038f0f66") { it.rounds0 },
-                            dataSet("#8f5903", "#8f590366") { it.rounds1 },
-                            dataSet("#750404", "#75040466") { it.rounds2 },
+                            dataSet("#750404", "#75040466", 2) { it.rounds0 },
+                            dataSet("#8f5903", "#8f590366", 0) { it.rounds1 },
+                            dataSet("#038f0f", "#038f0f66", 1) { it.rounds2 },
                         )
                     ),
                     options = Options(

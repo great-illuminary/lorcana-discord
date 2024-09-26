@@ -1,0 +1,3 @@
+- lines will have a proper fill color
+
+todo: make the ratio instead of actual raw values

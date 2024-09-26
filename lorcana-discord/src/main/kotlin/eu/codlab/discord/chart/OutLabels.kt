@@ -20,6 +20,8 @@ data class Chart<D>(
         serializerD: KSerializer<D>
     ) = json.encodeToString(serializer(serializerD), this)
         .replace(")\"", ")")
+        // this will need custom type serialization to make proper true|0|-1|1
+        .replace("\"fill\":2", "\"fill\":true")
         .replace("\"getGradientFillHelper(", "getGradientFillHelper(")
 
     fun toUrl(
